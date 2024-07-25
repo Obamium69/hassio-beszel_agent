@@ -1,0 +1,16 @@
+name: "Beszel Agent"
+description: "WIP"
+version: "1.0.4"
+slug: "beszel_agent"
+init: false
+legacy: true
+arch:
+  - amd64
+  - armhf
+  - armv7
+options:
+  KEY: "default_value"
+schema:
+  KEY: "str"
+ports:
+  45876/tcp: 45876
