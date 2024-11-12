@@ -1,6 +1,6 @@
 name: "Beszel Agent Dev Branch"
 description: "Beszel Agent for HASSIO (Dev Branch")
-version: "0.0.7"
+version: "0.0.8"
 slug: "beszel_agent"
 init: false
 legacy: true
