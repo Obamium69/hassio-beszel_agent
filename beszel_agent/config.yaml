@@ -1,6 +1,6 @@
 name: "Beszel Agent Dev Branch"
-description: "Beszel Agent for HASSIO (Dev Branch)"
-version: "0.0.6"
+description: "Beszel Agent for HASSIO (Dev Branch")
+version: "0.0.7"
 slug: "beszel_agent"
 init: false
 legacy: true
@@ -10,7 +10,7 @@ arch:
   - armv7
 options:
   KEY: "default_value"
-  ports: 45876
 schema:
   KEY: "str"
-  ports: "int"
+ports:
+  45876/tcp: 45876
