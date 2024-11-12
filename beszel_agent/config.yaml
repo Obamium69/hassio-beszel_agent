@@ -1,6 +1,6 @@
-name: "Beszel Agent"
+name: "Beszel Agent Dev Branch"
 description: "WIP"
-version: "1.0.4"
+version: "0.0.5"
 slug: "beszel_agent"
 init: false
 legacy: true
