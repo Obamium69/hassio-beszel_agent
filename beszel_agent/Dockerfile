@@ -1,4 +1,4 @@
-FROM henrygd/beszel-agent:0.7.4
+FROM henrygd/beszel-agent:0.8.0
 
 WORKDIR /app
 
