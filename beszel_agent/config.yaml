@@ -1,9 +1,10 @@
 name: "Beszel Agent Dev Branch"
 description: "Beszel Agent for HASSIO (Dev Branch)"
-version: "0.0.10"
+version: "0.0.11"
 slug: "beszel_agent_dev"
 init: false
 legacy: true
+host_network: true
 arch:
   - amd64
   - armhf
