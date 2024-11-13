@@ -10,9 +10,9 @@ arch:
   - armv7
 options:
   KEY: "default_value"
-  NICS: []
+  NICS: ""
 schema:
   KEY: "password"
-  NICS: "str"
+  NICS: "str?"
 ports:
   45876/tcp: 45876
