@@ -10,7 +10,13 @@ arch:
   - armv7
 options:
   KEY: "default_value"
+  NICS: ""
 schema:
-  KEY: "password"
+  KEY:
+    description: "Enter the secret key"  # Beschreibung für KEY
+    type: password
+  NICS:
+    description: "Optional: Specify NICs (leave empty if not needed)"  # Beschreibung für NICS
+    type: string
 ports:
   45876/tcp: 45876
