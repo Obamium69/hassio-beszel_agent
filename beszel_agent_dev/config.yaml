@@ -1,0 +1,17 @@
+name: "Beszel Agent Dev Branch"
+description: "Beszel Agent for HASSIO"
+version: "0.9.1"
+slug: "beszel_agent_dev"
+init: false
+legacy: true
+host_network: true
+arch:
+  - amd64
+  - armhf
+  - armv7
+options:
+  KEY: "default_value"
+schema:
+  KEY: "password"
+ports:
+  45876/tcp: 45876
