@@ -3,7 +3,6 @@ description: "Beszel Agent for HASSIO"
 version: "250117-2"
 slug: "beszel_agent_dev"
 init: false
-legacy: true
 host_network: true
 docker_api: true
 arch:
