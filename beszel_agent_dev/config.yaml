@@ -1,7 +1,7 @@
-name: "Beszel Agent Dev Branch"
-description: "Beszel Agent for HASSIO"
-version: "250117-3"
-slug: "beszel_agent_dev"
+name: "Beszel Agent"
+description: "Agent for Beszel Server Monitoring"
+version: "0.10.1"
+slug: "hassio_beszel_agent"
 init: false
 host_network: true
 docker_api: true
@@ -9,9 +9,10 @@ arch:
   - amd64
   - armhf
   - armv7
-options:
-  KEY: "default_value"
-schema:
-  KEY: "password"
 ports:
   45876/tcp: 45876
+image: "ghcr.io/obamium69/hassio_beszel_agent_wip:0.10.1"
+options:
+  key: null
+schema:
+  key: "password"

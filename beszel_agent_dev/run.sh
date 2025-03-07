@@ -1,6 +1,4 @@
 #!/usr/bin/with-contenv bashio
-export_config 'KEY'
 
-
-KEY="$(bashio::config 'KEY')"
-./agent
+KEY="$(bashio::config 'key')"
+ ./usr/local/bin/agent -key "$KEY"
