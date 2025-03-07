@@ -11,7 +11,7 @@ arch:
   - armv7
 ports:
   45876/tcp: 45876
-image: "ghcr.io/obamium69/hassio_beszel_agent_wip:0.10.1"
+image: "ghcr.io/obamium69/hassio_beszel_agent_wip"
 options:
   key: null
 schema:
