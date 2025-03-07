@@ -1,5 +1,5 @@
 name: "Beszel Agent Dev Branch"
-description: "Agent for Beszel Server Monitoring" 
+description: "Beszel Agent for HASSIO" 
 version: "0.10.1"
 slug: "hassio_beszel_agent"
 init: false
