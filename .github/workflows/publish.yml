@@ -4,10 +4,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  get_version:
+  build:
     runs-on: ubuntu-latest
-    outputs:
-      VERSION: ${{ steps.get_version.outputs.VERSION }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -20,54 +18,33 @@ jobs:
           echo "Latest version: $VERSION"
           echo "::set-output name=VERSION::$VERSION"
 
-  update_config:
-    needs: get_version
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
       - name: Update version in config files
         run: |
-          sed -i "s/^version:.*/version: \"${{ needs.get_version.outputs.VERSION }}\"/" beszel_agent_dev/config.yaml
+          sed -i "s/^version:.*/version: \"$VERSION\"/" beszel_agent_dev/config.yaml
         env:
-          VERSION: ${{ needs.get_version.outputs.VERSION }}
-
-  build_and_push:
-    needs: [get_version, update_config]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+          VERSION: ${{ steps.get_version.outputs.VERSION }}
 
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/obamium69/hassio_beszel_agent_dev:${{ needs.get_version.outputs.VERSION }} ./beszel_agent_dev/
+          docker build -t ghcr.io/obamium69/hassio_beszel_agent_dev:${VERSION} ./beszel_agent_dev/
         env:
-          VERSION: ${{ needs.get_version.outputs.VERSION }}
+          VERSION: ${{ steps.get_version.outputs.VERSION }}
 
       - name: Login to GitHub Container Registry
         run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
 
       - name: Push Docker image
         run: |
-          docker push ghcr.io/obamium69/hassio_beszel_agent_dev:${{ needs.get_version.outputs.VERSION }}
+          docker push ghcr.io/obamium69/hassio_beszel_agent_dev:${VERSION}
         env:
-          VERSION: ${{ needs.get_version.outputs.VERSION }}
+          VERSION: ${{ steps.get_version.outputs.VERSION }}
 
-  commit_version:
-    needs: [get_version, update_config]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Commit config.yaml version update
+      - name: Commit config.yaml version update 
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add beszel_agent/config.yaml beszel_agent_dev/config.yaml
-          git commit -m "Update config files version to ${{ needs.get_version.outputs.VERSION }}" || echo "No changes to commit"
+          git commit -m "Update config files version to $VERSION" || echo "No changes to commit"
           git push
         env:
-          VERSION: ${{ needs.get_version.outputs.VERSION }}
+          VERSION: ${{ steps.get_version.outputs.VERSION }}
