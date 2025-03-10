@@ -1,6 +1,6 @@
 name: "Beszel Agent Dev Branch"
 description: "Beszel Agent for HASSIO" 
-version: "0.10.1"
+version: "0.10.0"
 slug: "hassio_beszel_agent"
 init: false
 host_network: true
@@ -11,7 +11,7 @@ arch:
   - armv7
 ports:
   45876/tcp: 45876
-image: "ghcr.io/obamium69/hassio_beszel_agent_wip"
+image: "ghcr.io/obamium69/hassio_beszel_agent_dev"
 options:
   key: null
 schema:
