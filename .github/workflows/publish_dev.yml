@@ -18,33 +18,33 @@ jobs:
           echo "Latest version: $VERSION"
           echo "::set-output name=VERSION::$VERSION"
 
-      - name: Update version in beszel_agent config file
+      - name: Update version in beszel_agent_dev config file
         run: |
-          sed -i "s/^version:.*/version: \"${{ steps.get_version.outputs.VERSION }}\"/" beszel_agent/config.yaml
+          sed -i "s/^version:.*/version: \"${{ steps.get_version.outputs.VERSION }}\"/" beszel_agent_dev/config.yaml
         env:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
 
-      - name: Build Docker image for beszel_agent
+      - name: Build Docker image for beszel_agent_dev
         run: |
-          docker build -t ghcr.io/obamium69/hassio_beszel_agent:${VERSION} ./beszel_agent/
+          docker build -t ghcr.io/obamium69/hassio_beszel_agent_dev:${VERSION} ./beszel_agent_dev/
         env:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
 
       - name: Login to GitHub Container Registry
         run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
 
-      - name: Push Docker image for beszel_agent
+      - name: Push Docker image for beszel_agent_dev
         run: |
-          docker push ghcr.io/obamium69/hassio_beszel_agent:${VERSION}
+          docker push ghcr.io/obamium69/hassio_beszel_agent_dev:${VERSION}
         env:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
 
-      - name: Commit beszel_agent config.yaml version update
+      - name: Commit beszel_agent_dev config.yaml version update
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git add beszel_agent/config.yaml
-          git commit -m "Update beszel_agent config version to ${VERSION}" || echo "No changes to commit"
+          git add beszel_agent_dev/config.yaml
+          git commit -m "Update beszel_agent_dev config version to ${VERSION}" || echo "No changes to commit"
           git push
         env:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
