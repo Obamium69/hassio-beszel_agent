@@ -20,33 +20,53 @@ jobs:
           echo "Latest version: $VERSION"
           echo "::set-output name=VERSION::$VERSION"
 
+      - name: Check if config file version is up-to-date
+        id: check_version
+        run: |
+          CONFIG_VERSION=$(grep '^version:' beszel_agent_dev/config.yaml | sed -E 's/version: "(.*)"/\1/')
+          echo "Config version: $CONFIG_VERSION"
+          if [ "$CONFIG_VERSION" = "${{ steps.get_version.outputs.VERSION }}" ]; then
+            echo "Version is up-to-date. Skipping further steps."
+            echo "::set-output name=run_steps::false"
+          else
+            echo "Version is outdated. Proceeding with updates."
+            echo "::set-output name=run_steps::true"
+          fi
+        env:
+          VERSION: ${{ steps.get_version.outputs.VERSION }}
+
       - name: Update version in beszel_agent_dev config file
+        if: ${{ steps.check_version.outputs.run_steps == 'true' }}
         run: |
           sed -i "s/^version:.*/version: \"${{ steps.get_version.outputs.VERSION }}\"/" beszel_agent_dev/config.yaml
         env:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
 
       - name: Build Docker image for beszel_agent_dev
+        if: ${{ steps.check_version.outputs.run_steps == 'true' }}
         run: |
-          docker build -t ghcr.io/obamium69/hassio_beszel_agent_dev:${VERSION} ./beszel_agent_dev/
+          docker build -t ghcr.io/obamium69/hassio_beszel_agent_dev:${{ steps.get_version.outputs.VERSION }} ./beszel_agent_dev/
         env:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
 
       - name: Login to GitHub Container Registry
+        if: ${{ steps.check_version.outputs.run_steps == 'true' }}
         run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
 
       - name: Push Docker image for beszel_agent_dev
+        if: ${{ steps.check_version.outputs.run_steps == 'true' }}
         run: |
-          docker push ghcr.io/obamium69/hassio_beszel_agent_dev:${VERSION}
+          docker push ghcr.io/obamium69/hassio_beszel_agent_dev:${{ steps.get_version.outputs.VERSION }}
         env:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
 
       - name: Commit beszel_agent_dev config.yaml version update
+        if: ${{ steps.check_version.outputs.run_steps == 'true' }}
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add beszel_agent_dev/config.yaml
-          git commit -m "Update beszel_agent_dev config version to ${VERSION}" || echo "No changes to commit"
+          git commit -m "Update beszel_agent_dev config version to ${{ steps.get_version.outputs.VERSION }}" || echo "No changes to commit"
           git push
         env:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
