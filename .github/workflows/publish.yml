@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_dev:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
