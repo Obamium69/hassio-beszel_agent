@@ -1,16 +1,19 @@
-name: Build and Push Docker Image - Dev
+name: Build and Push Home Assistant Image
 
 on:
-  schedule:
-    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
-  build_dev:
+  build-dev:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
 
       - name: Get latest release version
         id: get_version
@@ -35,38 +38,19 @@ jobs:
         env:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
 
-      - name: Update version in beszel_agent_dev config file
-        if: ${{ steps.check_version.outputs.run_steps == 'true' }}
-        run: |
-          sed -i "s/^version:.*/version: \"${{ steps.get_version.outputs.VERSION }}\"/" beszel_agent_dev/config.yaml
-        env:
-          VERSION: ${{ steps.get_version.outputs.VERSION }}
+      - name: Login to DockerHub
+        #if: ${{ steps.check_version.outputs.run_steps == 'true' }}
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
-      - name: Build Docker image for beszel_agent_dev
-        if: ${{ steps.check_version.outputs.run_steps == 'true' }}
-        run: |
-          docker build -t ghcr.io/obamium69/hassio_beszel_agent_dev:${{ steps.get_version.outputs.VERSION }} ./beszel_agent_dev/
-        env:
-          VERSION: ${{ steps.get_version.outputs.VERSION }}
-
-      - name: Login to GitHub Container Registry
-        if: ${{ steps.check_version.outputs.run_steps == 'true' }}
-        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
-
-      - name: Push Docker image for beszel_agent_dev
-        if: ${{ steps.check_version.outputs.run_steps == 'true' }}
-        run: |
-          docker push ghcr.io/obamium69/hassio_beszel_agent_dev:${{ steps.get_version.outputs.VERSION }}
-        env:
-          VERSION: ${{ steps.get_version.outputs.VERSION }}
-
-      - name: Commit beszel_agent_dev config.yaml version update
-        if: ${{ steps.check_version.outputs.run_steps == 'true' }}
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git add beszel_agent_dev/config.yaml
-          git commit -m "Update beszel_agent_dev config version to ${{ steps.get_version.outputs.VERSION }}" || echo "No changes to commit"
-          git push
-        env:
-          VERSION: ${{ steps.get_version.outputs.VERSION }}
+      - name: Publish Home Assistant Image
+        #if: ${{ steps.check_version.outputs.run_steps == 'true' }}
+        uses: home-assistant/builder@2025.02.0
+        with:
+          args: |
+            --all \
+            --target beszel_agent_dev \
+            --docker-hub ghcr.io/obamium69/hassio_beszel_agent_dev_alpha
