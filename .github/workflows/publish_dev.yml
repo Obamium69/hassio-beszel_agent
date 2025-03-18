@@ -53,4 +53,4 @@ jobs:
           args: |
             --all \
             --target beszel_agent_dev \
-            --docker-hub ghcr.io/obamium69/hassio_beszel_agent_dev_alpha
+            --docker-hub ghcr.io/obamium69
