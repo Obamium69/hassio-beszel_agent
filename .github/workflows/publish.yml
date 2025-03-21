@@ -1,4 +1,4 @@
-name: Build and Push Home Assistant Image
+name: Build and Push Home Assistant Image and update config version
 
 on:
   workflow_dispatch:
