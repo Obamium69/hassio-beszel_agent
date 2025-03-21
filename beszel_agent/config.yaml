@@ -6,12 +6,14 @@ init: false
 host_network: true
 docker_api: true
 arch:
+  - aarch64
   - amd64
   - armhf
   - armv7
+  - i386
 ports:
   45876/tcp: 45876
-image: "ghcr.io/obamium69/hassio_beszel_agent"
+image: "ghcr.io/obamium69/hassio_beszel_agent-{arch}"
 options:
   key: null
 schema:
