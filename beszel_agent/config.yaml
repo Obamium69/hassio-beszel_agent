@@ -15,6 +15,10 @@ ports:
   45876/tcp: 45876
 image: "ghcr.io/obamium69/hassio_beszel_agent-{arch}"
 options:
-  key: null
+  key: ""
+  hub_url: ""
+  token: ""
 schema:
   key: "password"
+  hub_url: "str?"
+  token: "password?"
