@@ -1,5 +1,5 @@
 name: "Beszel Agent Dev Branch"
-description: "Beszel Agent for HASSIO" 
+description: "Beszel Agent for HASSIO"
 version: "0.12.3"
 slug: "hassio_beszel_agent_dev"
 init: false
@@ -19,7 +19,14 @@ options:
   key: ""
   hub_url: ""
   token: ""
+  environment_vars:
+    - name: EXAMPLE_VAR_NAME
+      value: EXAMPLE_VAR_VALUE
+
 schema:
   key: "password"
   hub_url: "str?"
   token: "password?"
+  environment_vars:
+      - name: "str"
+        value: "str"
