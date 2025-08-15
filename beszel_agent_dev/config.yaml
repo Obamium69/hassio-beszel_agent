@@ -30,3 +30,7 @@ schema:
   environment_vars:
       - name: "str"
         value: "str"
+map:
+  - type: data
+    read_only: false
+    path: /var/lib/beszel-agent
