@@ -18,7 +18,18 @@ options:
   key: ""
   hub_url: ""
   token: ""
+  environment_vars:
+    - name: EXAMPLE_VAR_NAME
+      value: EXAMPLE_VAR_VALUE
+
 schema:
   key: "password"
   hub_url: "str?"
   token: "password?"
+  environment_vars:
+      - name: "str"
+        value: "str"
+map:
+  - type: data
+    read_only: false
+    path: /var/lib/beszel-agent
