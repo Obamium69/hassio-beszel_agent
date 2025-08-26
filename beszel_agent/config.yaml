@@ -1,6 +1,6 @@
 name: "Beszel Agent Branch"
 description: "Beszel Agent for HASSIO" 
-version: "0.12.3"
+version: "0.12.4"
 slug: "hassio_beszel_agent"
 init: false
 host_network: true
