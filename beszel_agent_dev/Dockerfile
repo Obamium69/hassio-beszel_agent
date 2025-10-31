@@ -15,6 +15,7 @@ RUN BESZEL_VERSION=$(awk -F': ' '/^version:/ {print $2}' /tmp/config.yaml | tr -
         *) echo "Unsupported architecture: $ARCH" && exit 1 ;; \
     esac && \
     echo "Detected architecture: $ARCH" && \
+    apk add --no-cache smartmontools && \
     wget -q "https://github.com/henrygd/beszel/releases/download/v${BESZEL_VERSION}/beszel-agent_linux_${ARCH}.tar.gz" && \
     tar -xzf "beszel-agent_linux_${ARCH}.tar.gz" && \
     mv beszel-agent /usr/local/bin/agent && \

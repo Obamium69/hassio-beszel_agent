@@ -8,6 +8,7 @@ export HUB_URL
 export TOKEN
 
 echo "[INFO] HUB_URL: $HUB_URL"
+smartctl --all /dev/sda
 
 # Set vars dynamically
 if bashio::config.has_value 'environment_vars'; then
