@@ -13,5 +13,5 @@ An agent for Home Assistant that integrates with the [Beszel system monitoring t
    - Working branch: ```https://github.com/Obamium69/hassio-beszel_agent```
 3. Go into Beszel and start adding a new system and fill out the neccessary info
 4. Copy the public key and token and paste it into the config page of the HASSIO addon in Home Assistant
-5. The hub_url is the port exposed in your hub configuration (default port is 8090) Enter this as http://<containeripaddress>:8090
+5. The hub_url is the URL where the Beszel Hub is accessible. It needs to follow this schema: http://[hub-ip-address]:port Example: http://192.168.1.250:8090 (8090 is the default port).
 6. Start the addon
