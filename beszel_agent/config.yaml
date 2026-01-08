@@ -5,6 +5,7 @@ slug: "hassio_beszel_agent"
 init: false
 host_network: true
 docker_api: true
+host_dbus: true
 arch:
   - aarch64
   - amd64
