@@ -5,6 +5,7 @@ FROM $BUILD_FROM
 COPY config.yaml /tmp/config.yaml
 COPY run.sh /
 
+RUN apk add --no-cache gcompat
 RUN BESZEL_VERSION=$(awk -F': ' '/^version:/ {print $2}' /tmp/config.yaml | tr -d '"') && \
     echo "Using Version: $BESZEL_VERSION" && \
     ARCH=$(uname -m) && \
